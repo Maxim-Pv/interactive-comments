@@ -59,7 +59,7 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
           {!reply 
             ? 
               (<div className="comments currentUser-content">
-                <img src={jsonData.currentUser.image.webp} alt="avatar"></img>
+                <img  className="avatar" src={jsonData.currentUser.image.webp} alt="avatar"></img>
                 <textarea
                   className="currentUser-text editedText"
                   value={currentUserReply}
@@ -72,7 +72,7 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
               </div>)
             : 
               (<div className="comments comment-container replies-content">
-                <img src={jsonData.currentUser.image.webp} alt="avatar"></img>
+                <img className="avatar" src={jsonData.currentUser.image.webp} alt="avatar"></img>
                 <div>
                   <div className='replies-heading'>
                     <HeadingContentCurrentUser 

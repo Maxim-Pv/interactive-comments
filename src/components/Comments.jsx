@@ -19,7 +19,7 @@ const Comments = ({ jsonData, likesState, handleChangeLikeState, handleOpenModal
             <div key={comment.id}>
               <div className="comments" >
                 <div className="comment-container">
-                  <img src={comment.user.image.webp} alt="avatar"></img>
+                  <img className="avatar" src={comment.user.image.webp} alt="avatar"></img>
                   <div>
                     <div className="comment-heading">
                       <div>

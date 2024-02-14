@@ -93,6 +93,11 @@ body {
   cursor: pointer;
 }
 
+.likeButton:hover {
+  transform: scale(1.1);
+  transition: transform .3s;
+}
+
 .likeButton.active .likesDigit{
   margin-left: 22px;
   font-size: 15px;
@@ -120,6 +125,26 @@ body {
   cursor: pointer;
 }
 
+.replyButton:hover .replyImg {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(../public/images/icon-reply.svg);
+}
+
+.replyButton:hover .replyImg + span {
+  color: rgba(187, 204, 229, 1);
+}
+
+.replyButton:hover .replyImg.editImg {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(../public/images/icon-edit.svg);
+}
+
+.replyButton:hover .replyImg.deleteImg + span {
+  color: rgb(255, 152, 152);
+}
+
+.replyButton:hover .replyImg.deleteImg {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(../public/images/icon-delete.svg);
+}
+
 .editImg {
   background-image: url(../public/images/icon-edit.svg);
 }
@@ -137,6 +162,7 @@ body {
   font-weight: bold;
   color: #5357B6
 }
+
 
 .active {
   background-image: url(../public/images/like-svgrepo-com.svg);
@@ -157,6 +183,9 @@ body {
   justify-content: space-between;
 }
 
+.comments-content {
+  margin-bottom: 30px;
+}
 
 .replies-content {
   position: relative;
@@ -193,6 +222,11 @@ body {
   font-size: 16px;
   font-weight: 500;
   color: hsl(212, 24%, 26%);
+  cursor: pointer;
+}
+
+.currentUser-text:focus {
+  outline: 1px solid hsla(211, 10%, 45%, 0.781);
 }
 
 .currentUser-text::placeholder {
@@ -213,6 +247,10 @@ body {
   border-radius: 6px;
   color: white;
   cursor: pointer;
+}
+
+.btn-send:hover {
+  background-color: hsl(239, 57%, 85%);
 }
 
 .edit-update {
@@ -298,3 +336,21 @@ body {
   visibility: visible;
   opacity: 1;
 }
+
+@media (max-width: 375px) {
+
+  .container {
+    width: 100%;
+    padding: 30px 0 30px 0;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .text {
+    width: 100%;
+  }
+  
+} 

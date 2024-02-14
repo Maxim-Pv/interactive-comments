@@ -33,7 +33,7 @@ const ReplyContent = ({ jsonData, comment, index, likesState,
       <div key={reply.id}>
         <div className="comments">
           <div className="comment-container">
-            <img src={reply.user.image.webp} alt="avatar"></img>
+            <img className="avatar" src={reply.user.image.webp} alt="avatar"></img>
             <div>
               <div className="replies-heading">
                 {reply.user.username === currentUserName 
