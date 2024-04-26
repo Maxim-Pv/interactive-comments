@@ -18,9 +18,6 @@ function App() {
         const data = response.data;
         setJsonData(data)
 
-        // const usersComments = jsonData;
-        // localStorage.setItem( "usersComments" , JSON.stringify(usersComments)); 
-
         if (data.comments && data.comments.length > 0) {
           const initialScore = data.comments.map(comment => ({
             likes: comment.score,
@@ -73,9 +70,6 @@ function App() {
   const handleOpenModal = () => {
     setIsModalOpen(!isModalOpen);
   }
-
-  // const storeComment = JSON.parse(localStorage.getItem( "usersComments" )); 
-  // console.log(storeComment.currentUser);
 
 
   return (

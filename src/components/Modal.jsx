@@ -26,14 +26,24 @@ const Modal = ({ isModalOpen, setIsModalOpen }) => {
     setIsModalOpen(!isModalOpen)
   }
 
-  const storedReplies = JSON.parse(localStorage.getItem("usersComments"));
-  console.log(storedReplies);
-
+  // if(index){
+  //   console.log(index);
+  // } 
   const handleDelete = () => {
-    console.log();
+    // const storedReplies = JSON.parse(localStorage.getItem("usersComments"));
+    // const replyToDelete = storedReplies.comments[0].replies[0]
+    // if(replyToDelete) {
+    //   localStorage.removeItem("usersComments", replyToDelete)
+    //   console.log('reply');
+    // }
+    
+    // console.log(replyToDelete);
+    // console.log(storedReplies);
+
     // setIsModalOpen(!isModalOpen)
   }
 
+  // console.log(index);
 
   return (
     <div className={`modal ${isModalOpen ? 'open' : ''}`} >

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CurrentUser from "./CurrentUser";
+import Modal from "./Modal";
 
 const Comments = ({ jsonData, likesState, handleChangeLikeState, handleOpenModal }) => {
   const [clickedReplies, setClickedReplies] = useState({});
@@ -59,7 +60,6 @@ const Comments = ({ jsonData, likesState, handleChangeLikeState, handleOpenModal
             </div> 
           ))
         : "Loading comments..."}
-
     </div>
   );
 };

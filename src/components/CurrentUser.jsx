@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HeadingContentCurrentUser from './Replies/HeadingContentCurrentUser'
+import Modal from './Modal';
 
 
 const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
@@ -9,25 +10,23 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(currentUserReply);
 
+  useEffect(() => {
+    if (jsonData) {
+      localStorage.setItem("usersComments", JSON.stringify(jsonData));
+    }
+  }, [jsonData]);
+
   const handleChange = (event) => {
-    const newValue = event.target.value;
-    setCurrentUserReply(newValue);
+    setCurrentUserReply(event.target.value);
   };
-  
-  const usersComments = jsonData
-  localStorage.setItem( "usersComments" , JSON.stringify(usersComments)); 
-  const storedData = JSON.parse(localStorage.getItem("usersComments")); 
 
   const handleSubmit = () => {
-
     if (currentUserReply.trim() ===  `@${userName}, `.trim()) {
       handleReply()
       console.log('handle work reply');
 
     } else {
-
-      // Update localStorage with the new reply
-      
+      const storedData = JSON.parse(localStorage.getItem("usersComments"));
       const commentToUpdate = storedData.comments.find(comment => comment.id === (index + 1));
       const newReply = {
         id: commentToUpdate.replies.length + 2,
@@ -39,7 +38,7 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
       };
       commentToUpdate.replies.push(newReply);
       localStorage.setItem('usersComments', JSON.stringify(storedData));
-      console.log(storedData);
+      // console.log(storedData);
 
       setCurrentUserReply(currentUserReply.substring(`@${userName},`.length));
       setEditedContent(currentUserReply)
@@ -57,6 +56,43 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
     if (editedContent.trim() === '') {
       handleReply()
     } else {   
+      const storedData = JSON.parse(localStorage.getItem("usersComments"));
+      const commentToUpdate = storedData.comments.find(comment => comment.id === (index + 1));
+
+      const updatedReplies = commentToUpdate.replies.map(reply => {
+        if (reply.id === index) {
+          return {
+            ...reply,
+            content: editedContent,
+          };
+        }
+        return reply;
+      });
+
+      console.log(updatedReplies);
+
+      const updatedComment = {
+        ...commentToUpdate,
+        replies: updatedReplies,
+      };
+
+      console.log(updatedComment);
+
+      const updatedComments = storedData.comments.map(comment => {
+        if (comment.id === (index + 1)) {
+          return updatedComment;
+        }
+        return comment;
+      });
+
+      const updatedData = {
+        ...storedData,
+        comments: updatedComments,
+      };
+
+      localStorage.setItem('usersComments', JSON.stringify(updatedData));
+    
+
       setCurrentUserReply(editedContent.substring(`@${userName},`.length));
       setIsEditing(!isEditing);
     }
