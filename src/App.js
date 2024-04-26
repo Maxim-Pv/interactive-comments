@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Comments from "./components/Comments";
 import Replies from "./components/Replies/Replies";
 import CurrentUser from "./components/CurrentUser";
-import './styles.css'
 import Modal from "./components/Modal";
-
+import axios from 'axios';
+import './styles.css';
 
 function App() {
   const [jsonData, setJsonData] = useState({});
@@ -14,9 +14,12 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${process.env.PUBLIC_URL}/data.json`);
-        const data = await response.json();
+        const response = await axios.get(`${process.env.PUBLIC_URL}/data.json`);
+        const data = response.data;
         setJsonData(data)
+
+        // const usersComments = jsonData;
+        // localStorage.setItem( "usersComments" , JSON.stringify(usersComments)); 
 
         if (data.comments && data.comments.length > 0) {
           const initialScore = data.comments.map(comment => ({
@@ -43,7 +46,7 @@ function App() {
     fetchData()
   },[])
 
-   const handleChangeLikeState = (index) => {
+  const handleChangeLikeState = (index) => {
     if (!likesState[index].liked) {
       setLikesState((prevStates) => {
         const newState = [...prevStates];
@@ -71,7 +74,8 @@ function App() {
     setIsModalOpen(!isModalOpen);
   }
 
-
+  // const storeComment = JSON.parse(localStorage.getItem( "usersComments" )); 
+  // console.log(storeComment.currentUser);
 
 
   return (

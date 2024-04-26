@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import HeadingContentCurrentUser from './Replies/HeadingContentCurrentUser'
-import Modal from './Modal';
 
 
 const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
-  handleReply, handleOpenModal }) => {
+  handleReply, handleOpenModal, index }) => {
   const [currentUserReply, setCurrentUserReply] = useState(userName ? `@${userName}, `: '');
   const [reply, setReply] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -14,21 +13,34 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
     const newValue = event.target.value;
     setCurrentUserReply(newValue);
   };
+  
+  const usersComments = jsonData
+  localStorage.setItem( "usersComments" , JSON.stringify(usersComments)); 
+  const storedData = JSON.parse(localStorage.getItem("usersComments")); 
 
   const handleSubmit = () => {
-    const storedReplies = JSON.parse(localStorage.getItem("replies")) || [];
 
-    const newReply = {
-      userName: userName,
-      content: currentUserReply,
-    };
-
-    if (newReply.content.trim() === '' || currentUserReply.trim() ===  `@${userName}, `.trim()) {
+    if (currentUserReply.trim() ===  `@${userName}, `.trim()) {
       handleReply()
+      console.log('handle work reply');
+
     } else {
-      const updatedReplies = [...storedReplies, newReply];
-      // Сохраняем обновленные ответы в localStorage
-      localStorage.setItem("replies", JSON.stringify(updatedReplies));
+
+      // Update localStorage with the new reply
+      
+      const commentToUpdate = storedData.comments.find(comment => comment.id === (index + 1));
+      const newReply = {
+        id: commentToUpdate.replies.length + 2,
+        content: currentUserReply,
+        createdAt: "now",
+        score: 0,
+        replyingTo: userName,
+        user: jsonData.currentUser
+      };
+      commentToUpdate.replies.push(newReply);
+      localStorage.setItem('usersComments', JSON.stringify(storedData));
+      console.log(storedData);
+
       setCurrentUserReply(currentUserReply.substring(`@${userName},`.length));
       setEditedContent(currentUserReply)
       setReply(!reply)
@@ -36,18 +48,17 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
   };
 
   const handleEdit = () => {
-    setIsEditing(!isEditing);
-    console.log('handleEdit==');
+    if (!isEditing) {
+      setIsEditing(!isEditing);
+    }
   };
 
   const handleUpdate = () => {
     if (editedContent.trim() === '') {
       handleReply()
-      // console.log('===handleUpdatehandleUpdate');
-    } else {
+    } else {   
       setCurrentUserReply(editedContent.substring(`@${userName},`.length));
       setIsEditing(!isEditing);
-      // console.log('===ne handleUpdate');
     }
 
   }
@@ -77,7 +88,6 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
                   <div className='replies-heading'>
                     <HeadingContentCurrentUser 
                       userName={jsonData.currentUser.username}
-                      created='now'
                       handleEdit={handleEdit}
                       handleOpenModal={handleOpenModal}
                     />
@@ -111,10 +121,6 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
           }
         </div>)
       }
-
-      <Modal
-
-      />
     </div>
   )
 }  

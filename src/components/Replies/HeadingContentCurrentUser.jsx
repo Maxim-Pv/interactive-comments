@@ -1,14 +1,14 @@
 import React from 'react'
 
-const HeadingContentCurrentUser = ({ userName, created, handleEdit, handleOpenModal, }) => {
-  console.log('handleEdit === ');
+const HeadingContentCurrentUser = ({ userName, handleEdit, handleOpenModal, }) => {
+  console.log('handleEdit === '); // срабатывает при вводе каждого символа в reply 
   return (
     <div className="replies-heading-content">
         <span className="userName currentUserName">{userName}</span>
         <div className="replies-heading-content withoutName">
           <div>
             <span className="you">you</span>
-            <span className="created">{created}</span>
+            <span className="created">now</span>
           </div>
           <div style={{display: 'flex'}}>
             <button style={{marginRight: 20}} className="replyButton" onClick={handleOpenModal}>

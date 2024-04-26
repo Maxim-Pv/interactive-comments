@@ -5,10 +5,12 @@ const Comments = ({ jsonData, likesState, handleChangeLikeState, handleOpenModal
   const [clickedReplies, setClickedReplies] = useState({});
 
   const handleReply = (index) => {
-    setClickedReplies((prevClickedReplies) => ({
-      ...prevClickedReplies,
-      [index]: !prevClickedReplies[index],
-    }))
+    if (!clickedReplies[index]) {
+      setClickedReplies((prevClickedReplies) => ({
+        ...prevClickedReplies,
+        [index]: true,
+      }));
+    }
   }
 
   
@@ -50,6 +52,7 @@ const Comments = ({ jsonData, likesState, handleChangeLikeState, handleOpenModal
                   userName={comment.user.username}
                   handleReply={() => handleReply(index)}
                   handleOpenModal={() => handleOpenModal(index)}
+                  index={index}
                   // handleDelete={() => handleDelete(index)}
                 />)
              }

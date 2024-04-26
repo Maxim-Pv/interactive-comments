@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import HeadingContentCurrentUser from './HeadingContentCurrentUser'
 import CurrentUser from '../CurrentUser'
+import Modal from '../Modal';
 
 const ReplyContent = ({ jsonData, comment, index, likesState, 
   handleChangeLikeState, currentUserName, handleOpenModal }) => {
@@ -37,12 +38,15 @@ const ReplyContent = ({ jsonData, comment, index, likesState,
             <div>
               <div className="replies-heading">
                 {reply.user.username === currentUserName 
-                  ? (<HeadingContentCurrentUser
+                  ? (<>
+                      <HeadingContentCurrentUser
                         userName={reply.user.username}
                         created={reply.createdAt}
                         handleEdit={() => handleEdit(reply.content)}
                         handleOpenModal={() => handleOpenModal(replyIndex)}
-                    />)
+                      />
+                    </>
+                    )
                   : (<>
                       <div className="reply-userData">
                         <span className="userName">{reply.user.username}</span>

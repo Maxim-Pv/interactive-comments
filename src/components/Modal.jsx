@@ -15,13 +15,23 @@ const Modal = ({ isModalOpen, setIsModalOpen }) => {
     } else {
       document.removeEventListener('mousedown', handleClickOutside)
     }
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
+    
   }, [isModalOpen])
 
   const handleCancel = () => {
     setIsModalOpen(!isModalOpen)
+  }
+
+  const storedReplies = JSON.parse(localStorage.getItem("usersComments"));
+  console.log(storedReplies);
+
+  const handleDelete = () => {
+    console.log();
+    // setIsModalOpen(!isModalOpen)
   }
 
 
@@ -34,7 +44,7 @@ const Modal = ({ isModalOpen, setIsModalOpen }) => {
         </p>
         <div className="modal-container-btns">
           <button className="modal-btn" onClick={handleCancel}>NO, CANСEL</button>
-          <button className="modal-btn delete-btn" >YES, DELETE</button>
+          <button className="modal-btn delete-btn" onClick={handleDelete}>YES, DELETE</button>
         </div>
       </div>
     </div>
