@@ -1,6 +1,7 @@
 import React from 'react'
+import Modal from '../Modal';
 
-const HeadingContentCurrentUser = ({ userName, handleEdit, handleOpenModal, }) => {
+const HeadingContentCurrentUser = ({ userName, handleEdit, handleOpenModal }) => {
   console.log('handleEdit === '); // срабатывает при вводе каждого символа в reply 
   return (
     <div className="replies-heading-content">

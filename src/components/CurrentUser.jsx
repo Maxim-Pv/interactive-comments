@@ -10,12 +10,6 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(currentUserReply);
 
-  useEffect(() => {
-    if (jsonData) {
-      localStorage.setItem("usersComments", JSON.stringify(jsonData));
-    }
-  }, [jsonData]);
-
   const handleChange = (event) => {
     setCurrentUserReply(event.target.value);
   };
@@ -99,6 +93,7 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
 
   }
 
+
   return (
     <div>
       {jsonData && jsonData.currentUser && 
@@ -126,6 +121,7 @@ const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,
                       userName={jsonData.currentUser.username}
                       handleEdit={handleEdit}
                       handleOpenModal={handleOpenModal}
+                      index={index}
                     />
                   </div>
                 {!isEditing

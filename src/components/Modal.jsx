@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
-const Modal = ({ isModalOpen, setIsModalOpen }) => {
+const Modal = ({ isModalOpen, setIsModalOpen, handleDeleteConfirm }) => {
   const modalRef = useRef(null);
 
   const handleClickOutside = (event) => {
@@ -26,25 +26,6 @@ const Modal = ({ isModalOpen, setIsModalOpen }) => {
     setIsModalOpen(!isModalOpen)
   }
 
-  // if(index){
-  //   console.log(index);
-  // } 
-  const handleDelete = () => {
-    // const storedReplies = JSON.parse(localStorage.getItem("usersComments"));
-    // const replyToDelete = storedReplies.comments[0].replies[0]
-    // if(replyToDelete) {
-    //   localStorage.removeItem("usersComments", replyToDelete)
-    //   console.log('reply');
-    // }
-    
-    // console.log(replyToDelete);
-    // console.log(storedReplies);
-
-    // setIsModalOpen(!isModalOpen)
-  }
-
-  // console.log(index);
-
   return (
     <div className={`modal ${isModalOpen ? 'open' : ''}`} >
       <div className="modal-content" ref={modalRef}>
@@ -54,7 +35,7 @@ const Modal = ({ isModalOpen, setIsModalOpen }) => {
         </p>
         <div className="modal-container-btns">
           <button className="modal-btn" onClick={handleCancel}>NO, CANСEL</button>
-          <button className="modal-btn delete-btn" onClick={handleDelete}>YES, DELETE</button>
+          <button className="modal-btn delete-btn" onClick={handleDeleteConfirm}>YES, DELETE</button>
         </div>
       </div>
     </div>

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import CurrentUser from "./CurrentUser";
-import Modal from "./Modal";
 
-const Comments = ({ jsonData, likesState, handleChangeLikeState, handleOpenModal }) => {
+const Comments = ({ jsonData, likesState, handleChangeLikeState, handleOpenModal, handleDeleteConfirm }) => {
   const [clickedReplies, setClickedReplies] = useState({});
 
   const handleReply = (index) => {
@@ -54,6 +53,7 @@ const Comments = ({ jsonData, likesState, handleChangeLikeState, handleOpenModal
                   handleReply={() => handleReply(index)}
                   handleOpenModal={() => handleOpenModal(index)}
                   index={index}
+                  handleDeleteConfirm={(id) => handleDeleteConfirm(id)}
                   // handleDelete={() => handleDelete(index)}
                 />)
              }
