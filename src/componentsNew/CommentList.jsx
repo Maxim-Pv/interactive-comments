@@ -40,7 +40,9 @@ const CommentList = ({ comments }) => {
               </div>
               {replyingTo === comment.id &&
                 <Reply
-                  />  
+                  userName={comment.user.username}
+                  commentId={comment.id}
+                />  
               }
             </div>
           ))

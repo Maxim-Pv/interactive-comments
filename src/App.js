@@ -142,21 +142,27 @@ import CommentList from "./componentsNew/CommentList";
 // export default App;
 
 function App() {
-  const [comments, setComments] = useState([]);
+  const [jsonData, setJsonData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const commentsFromStorage = JSON.parse(localStorage.getItem('comments')) || data.comments;
-    setComments(commentsFromStorage);
+    setJsonData(data)
+    localStorage.setItem('jsonData', JSON.stringify(data));
+    setLoading(false)
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
 
   return (
     <div className='container'>
       <CommentList 
-        comments={comments}
+        comments={jsonData.comments}
       />
     </div>
-  );
+  )
 }
 
 export default App
