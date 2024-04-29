@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import HeadingContentCurrentUser from './HeadingContentCurrentUser'
 import CurrentUser from '../CurrentUser'
-import Modal from '../Modal';
+import Modal from '../../componentsNew/Modal';
 
 const ReplyContent = ({ jsonData, comment, index, likesState, 
   handleChangeLikeState, currentUserName, handleOpenModal }) => {

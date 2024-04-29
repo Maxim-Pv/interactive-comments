@@ -7,6 +7,8 @@ import data from './data.json';
 // import axios from 'axios';
 import './styles.css';
 import CommentList from "./componentsNew/CommentList";
+import UserComment from "./componentsNew/UserComment";
+import Modal from "./componentsNew/Modal";
 
 // function App() {
 //   const [jsonData, setJsonData] = useState({});
@@ -144,25 +146,62 @@ import CommentList from "./componentsNew/CommentList";
 function App() {
   const [jsonData, setJsonData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selected, setSelected] = useState(null)
 
   useEffect(() => {
     setJsonData(data)
     localStorage.setItem('jsonData', JSON.stringify(data));
     setLoading(false)
-  }, []);
+  }, [jsonData]);
 
   if (loading) {
     return <div>Loading...</div>
   }
 
+  const saveRepliesToStorage = (updatedReplies) => {
+    localStorage.setItem('jsonData', JSON.stringify(updatedReplies));
+  };
+
+  const selectedReply = (id) => {
+    setSelected(id)
+  }
+
+  const handleDelete = () => {
+    const data = JSON.parse(localStorage.getItem('jsonData'))
+    const updatedReplies = { ...data };
+
+    if (selected.length === 2) {
+      const selectedComment = selected[0]
+      const selectedReply = selected[1]
+      updatedReplies.comments[selectedComment].replies.splice(selectedReply, 1);
+      saveRepliesToStorage(updatedReplies)
+      setJsonData(updatedReplies);
+    } 
+    setIsModalOpen(false)
+  }
 
   return (
     <div className='container'>
       <CommentList 
         comments={jsonData.comments}
+        userName={jsonData.currentUser.username}
+        setIsModalOpen={setIsModalOpen}
+        onDeleteReply={selectedReply}
+      />
+      <UserComment 
+        avatar={jsonData.currentUser.image.webp}
+      /> 
+      <Modal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleConfirmDelete={handleDelete}
       />
     </div>
   )
+  
 }
 
 export default App
+
+//! Не перерендиривается commentList после удаления reply

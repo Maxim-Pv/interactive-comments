@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
-const Modal = ({ isModalOpen, setIsModalOpen, handleDeleteConfirm }) => {
+const Modal = ({ isModalOpen, setIsModalOpen, handleConfirmDelete }) => {
   const modalRef = useRef(null);
 
   const handleClickOutside = (event) => {
@@ -26,6 +26,12 @@ const Modal = ({ isModalOpen, setIsModalOpen, handleDeleteConfirm }) => {
     setIsModalOpen(!isModalOpen)
   }
 
+  const handleDelete = () => {
+    handleConfirmDelete()
+    // console.log(handleConfirmDelete);
+  }
+
+
   return (
     <div className={`modal ${isModalOpen ? 'open' : ''}`} >
       <div className="modal-content" ref={modalRef}>
@@ -35,7 +41,7 @@ const Modal = ({ isModalOpen, setIsModalOpen, handleDeleteConfirm }) => {
         </p>
         <div className="modal-container-btns">
           <button className="modal-btn" onClick={handleCancel}>NO, CANСEL</button>
-          <button className="modal-btn delete-btn" onClick={handleDeleteConfirm}>YES, DELETE</button>
+          <button className="modal-btn delete-btn" onClick={handleDelete}>YES, DELETE</button>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import HeadingContentCurrentUser from './Replies/HeadingContentCurrentUser'
-import Modal from './Modal';
+import Modal from '../componentsNew/Modal';
 
 
 const CurrentUser = ({ jsonData, userName, likesState, handleChangeLikeState,

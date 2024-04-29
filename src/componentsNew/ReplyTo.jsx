@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Reply = ({ userName, commentId }) => {
+const ReplyTo = ({ userName, commentId }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [currentUserReply, setCurrentUserReply] = useState(userName ? `@${userName}, `: '');
 
@@ -49,4 +49,4 @@ const Reply = ({ userName, commentId }) => {
   )
 }
 
-export default Reply
+export default ReplyTo
