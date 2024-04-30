@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import data from './data.json';
-// import Comments from "./components/Comments";
-// import Replies from "./components/Replies/Replies";
-// import CurrentUser from "./components/CurrentUser";
-// import Modal from "./components/Modal";
-// import axios from 'axios';
-import './styles.css';
 import CommentList from "./componentsNew/CommentList";
 import UserComment from "./componentsNew/UserComment";
 import Modal from "./componentsNew/Modal";
+import './styles.css';
 
 // function App() {
 //   const [jsonData, setJsonData] = useState({});
@@ -176,11 +171,20 @@ function App() {
       updatedReplies.comments[selectedComment].replies.splice(selectedReply, 1);
       saveRepliesToStorage(updatedReplies)
       setJsonData(updatedReplies);
-      console.log(updatedReplies);
     } 
     setIsModalOpen(false)
-    
   }
+
+  const addReplyToComment = (commentId, newReply) => {
+    setJsonData(prevData => {
+      const upadtedData = { ...prevData };
+      const commentToUpdate = upadtedData.comments.find(comment => comment.id === commentId);
+      commentToUpdate.replies.push(newReply);
+      localStorage.setItem('jsonData', JSON.stringify(upadtedData));
+      return upadtedData;
+    })
+  }
+
 
   return (
     <div className='container'>
@@ -189,6 +193,8 @@ function App() {
         userName={jsonData.currentUser.username}
         setIsModalOpen={setIsModalOpen}
         onDeleteReply={selectedReply}
+        userAvatar={jsonData.currentUser.image.webp}
+        addReplyToComment={addReplyToComment}
       />
       <UserComment 
         avatar={jsonData.currentUser.image.webp}

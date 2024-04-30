@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
+import ReplyTo from './ReplyTo';
 
-const CommentList = ({ comments, userName, setIsModalOpen, onDeleteReply }) => {
+const CommentList = ({ comments, userName, setIsModalOpen, onDeleteReply, userAvatar, addReplyToComment }) => {
   const [replyingTo, setReplyingTo] = useState(null);
+  const [isReplying, setIsReplying] = useState(false);
 
   const handleReply = (commentId) => {
-    setReplyingTo(commentId);
+    setReplyingTo((prevReplyingTo) => (prevReplyingTo === commentId ? prevReplyingTo : commentId));
+    setIsReplying(true);
   };
 
   const handleDeleteConfirm = (index, indexR) => {
     onDeleteReply([index, indexR])
     setIsModalOpen(true)
   }
+  
 
   return (
     <div>
@@ -25,7 +29,7 @@ const CommentList = ({ comments, userName, setIsModalOpen, onDeleteReply }) => {
                     <span className="userName">{comment.user.username}</span>
                     <span className="created">{comment.createdAt}</span>
                   </div>
-                  <button className="replyButton" >
+                  <button className="replyButton" onClick={() => handleReply(comment.id)}>
                     <span className="replyImg"></span>
                     <span>Reply</span>
                   </button>
@@ -42,6 +46,17 @@ const CommentList = ({ comments, userName, setIsModalOpen, onDeleteReply }) => {
               </div>
             </div>
           </div>
+          {replyingTo === comment.id &&
+            <ReplyTo 
+              commentId={comment.id}
+              commentUserName={comment.user.username}
+              userName={userName}
+              userAvatar={userAvatar}
+              isReplying={isReplying}
+              addReplyToComment={addReplyToComment}
+              setIsReplying={setIsReplying}
+            />
+          }
 {/* Replies to comment start here */}
           <div className="comments-contant replies-content">
             {comment.replies && comment.replies.map((reply, indexR) => (

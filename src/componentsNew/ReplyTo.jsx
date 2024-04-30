@@ -1,51 +1,50 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-const ReplyTo = ({ userName, commentId }) => {
-  const [currentUser, setCurrentUser] = useState({});
-  const [currentUserReply, setCurrentUserReply] = useState(userName ? `@${userName}, `: '');
+const ReplyTo = ({ commentUserName, commentId, userName, 
+  userAvatar, addReplyToComment, isReplying, setIsReplying }) => {
 
-  useEffect(() => {
-    const currentUserData = JSON.parse(localStorage.getItem('jsonData')) ;
-    setCurrentUser(currentUserData);
-  }, []);
-
+  const [commentUserReply, setCommentUserReply] = useState(commentUserName ? `@${commentUserName}, `: '');
+  
   const handleChange = (event) => {
-    setCurrentUserReply(event.target.value);
+    setCommentUserReply(event.target.value);
   };
 
   const handleSubmit = () => {
-    const storedData = JSON.parse(localStorage.getItem("jsonData"));
-      const commentToUpdate = storedData.comments.find(comment => comment.id === commentId);
-      const newReply = {
-        id: commentToUpdate.replies.length + 1,
-        content: currentUserReply,
-        createdAt: "now",
-        score: 0,
-        replyingTo: userName,
-        user: currentUser.username
-      };
-      commentToUpdate.replies.push(newReply);
-      localStorage.setItem('usersComments', JSON.stringify(storedData));
-      console.log(storedData);
+    const newReply = {
+      id: Date.now(),
+      content: commentUserReply,
+      createdAt: "now",
+      score: 0,
+      replyingTo: commentUserName,
+      user: {
+        image: { 
+          webp: "./images/avatars/image-juliusomo.webp"
+        },
+        username: userName,
+      }
+    };
+    addReplyToComment(commentId, newReply);
+    setIsReplying(false)
   }
 
-  // src={currentUser.image.webp}
-  console.log(currentUser);
 
   return (
-    <div className="comments currentUser-content">
-      {/* <img className="avatar" src={currentUser.image?.webp} alt="avatar"></img> */}
-      {/* не успевает прогрузиться currentUser */}
-      <textarea
-        className="currentUser-text editedText"
-        value={currentUserReply}
-        onChange={handleChange}
-      />
-  
-      <button className="btn-send" onClick={handleSubmit}>
-        REPLY
-      </button>
+    <div>
+      {isReplying && 
+        (<div style={{marginTop: -10 }} className="comments currentUser-content">
+          <img className="avatar" src={userAvatar} alt="avatar"></img>
+          <textarea
+            className="currentUser-text editedText"
+            value={commentUserReply}
+            onChange={handleChange}
+          />
+          <button className="btn-send" onClick={handleSubmit}>
+            REPLY
+          </button>
+        </div>)
+      }
     </div>
+    
   )
 }
 

@@ -28,7 +28,6 @@ const Modal = ({ isModalOpen, setIsModalOpen, handleConfirmDelete }) => {
 
   const handleDelete = () => {
     handleConfirmDelete()
-    // console.log(handleConfirmDelete);
   }
 
 
