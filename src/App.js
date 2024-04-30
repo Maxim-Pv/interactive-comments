@@ -185,6 +185,21 @@ function App() {
     })
   }
 
+  const addReplyToReply = (commentIndex, commentId, replyId, newReply) => {
+    setJsonData(prevData => {
+      const upadtedData = { ...prevData };
+      const commentToUpdate = upadtedData.comments.find(comment => comment.id === commentId);
+      // const replyToUpdate = commentToUpdate.replies.find(reply => reply.id === replyId);
+      // console.log(replyToUpdate);
+      commentToUpdate.replies.push(newReply);
+
+      localStorage.setItem('jsonData', JSON.stringify(upadtedData));
+      return upadtedData;
+    })
+  }
+
+  console.log(jsonData);
+
 
   return (
     <div className='container'>
@@ -195,6 +210,7 @@ function App() {
         onDeleteReply={selectedReply}
         userAvatar={jsonData.currentUser.image.webp}
         addReplyToComment={addReplyToComment}
+        addReplyToReply={addReplyToReply}
       />
       <UserComment 
         avatar={jsonData.currentUser.image.webp}

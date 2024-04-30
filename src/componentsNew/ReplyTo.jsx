@@ -1,36 +1,50 @@
 import React, { useState } from 'react'
 
-const ReplyTo = ({ commentUserName, commentId, userName, 
-  userAvatar, addReplyToComment, isReplying, setIsReplying }) => {
+const ReplyTo = ({ commentUserName, commentId, commentIndex, replyId, userName, 
+  userAvatar, addReplyToComment, addReplyToReply, isReplying, setIsReplying, 
+  isReplyingToReply, setIsReplyingToReply }) => {
 
-  const [commentUserReply, setCommentUserReply] = useState(commentUserName ? `@${commentUserName}, `: '');
+  const [commentUserReply, setCommentUserReply] = useState('');
   
   const handleChange = (event) => {
     setCommentUserReply(event.target.value);
   };
 
   const handleSubmit = () => {
-    const newReply = {
-      id: Date.now(),
-      content: commentUserReply,
-      createdAt: "now",
-      score: 0,
-      replyingTo: commentUserName,
-      user: {
-        image: { 
-          webp: "./images/avatars/image-juliusomo.webp"
-        },
-        username: userName,
+    if (commentUserReply.trim() ===  `@${commentUserName}, `.trim()) {
+      return 
+    } else {
+      const newReply = {
+        id: Date.now(),
+        content: commentUserReply,
+        createdAt: "now",
+        score: 0,
+        replyingTo: commentUserName,
+        user: {
+          image: { 
+            webp: "./images/avatars/image-juliusomo.webp"
+          },
+          username: userName,
+        }
+      };
+
+      // setCommentUserReply(commentUserReply.substring(`@${commentUserName}, `.length));
+      
+      if (isReplying) {
+        addReplyToComment(commentId, newReply);
+        setIsReplying(false)
       }
-    };
-    addReplyToComment(commentId, newReply);
-    setIsReplying(false)
+      if (isReplyingToReply) {
+        addReplyToReply(commentIndex, commentId, replyId, newReply)
+        setIsReplyingToReply(false)
+      }
+    }
   }
 
 
   return (
     <div>
-      {isReplying && 
+      {(isReplying || isReplyingToReply) &&  
         (<div style={{marginTop: -10 }} className="comments currentUser-content">
           <img className="avatar" src={userAvatar} alt="avatar"></img>
           <textarea
