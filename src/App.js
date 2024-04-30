@@ -150,10 +150,10 @@ function App() {
   const [selected, setSelected] = useState(null)
 
   useEffect(() => {
-    setJsonData(data)
     localStorage.setItem('jsonData', JSON.stringify(data));
+    setJsonData(data)
     setLoading(false)
-  }, [jsonData]);
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>
@@ -168,8 +168,7 @@ function App() {
   }
 
   const handleDelete = () => {
-    const data = JSON.parse(localStorage.getItem('jsonData'))
-    const updatedReplies = { ...data };
+    const updatedReplies = { ...jsonData };
 
     if (selected.length === 2) {
       const selectedComment = selected[0]
@@ -177,8 +176,10 @@ function App() {
       updatedReplies.comments[selectedComment].replies.splice(selectedReply, 1);
       saveRepliesToStorage(updatedReplies)
       setJsonData(updatedReplies);
+      console.log(updatedReplies);
     } 
     setIsModalOpen(false)
+    
   }
 
   return (
@@ -204,4 +205,3 @@ function App() {
 
 export default App
 
-//! Не перерендиривается commentList после удаления reply

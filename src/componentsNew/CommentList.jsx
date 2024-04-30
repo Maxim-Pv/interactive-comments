@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const CommentList = ({ comments, userName, setIsModalOpen, onDeleteReply }) => {
-  // const [replyingTo, setReplyingTo] = useState(null);
+  const [replyingTo, setReplyingTo] = useState(null);
 
   const handleReply = (commentId) => {
     setReplyingTo(commentId);
