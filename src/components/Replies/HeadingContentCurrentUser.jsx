@@ -2,7 +2,6 @@ import React from 'react'
 import Modal from '../../componentsNew/Modal';
 
 const HeadingContentCurrentUser = ({ userName, handleEdit, handleOpenModal }) => {
-  console.log('handleEdit === '); // срабатывает при вводе каждого символа в reply 
   return (
     <div className="replies-heading-content">
         <span className="userName currentUserName">{userName}</span>

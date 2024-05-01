@@ -7,6 +7,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
   const [replyingToReply, setReplyingToReply] = useState(null);
   const [isReplying, setIsReplying] = useState(false);
   const [isReplyingToReply, setIsReplyingToReply] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleReplyToComment = (commentId) => {
     setReplyingToComment((prevReplyingTo) => (prevReplyingTo === commentId ? prevReplyingTo : commentId));
@@ -23,6 +24,9 @@ const CommentList = ({ comments, userName, setIsModalOpen,
     setIsModalOpen(true)
   }
   
+  const handleEdit = () => {
+    setIsEditing(true)
+  }
 
   return (
     <div>
@@ -63,6 +67,8 @@ const CommentList = ({ comments, userName, setIsModalOpen,
               isReplying={isReplying}
               addReplyToComment={addReplyToComment}
               setIsReplying={setIsReplying}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
             />
           }
 {/* Replies to comment start here */}
@@ -73,7 +79,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                   <div className="comment-container">
                     <img className="avatar" src={reply.user.image.webp} alt="avatar"></img>
                     <div>
-                      {reply.user.username === userName 
+                      {reply.user.username === userName
                         ? (<>
                             <div className="replies-heading">
                               <div className="replies-heading-content">
@@ -90,7 +96,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                                       <span className="replyImg deleteImg"></span>
                                       <span>Delete</span>
                                     </button>
-                                    <button className="replyButton" >
+                                    <button className="replyButton" onClick={handleEdit}>
                                       <span className="replyImg editImg"></span>
                                       <span>Edit</span>
                                     </button>
@@ -129,7 +135,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                       commentId={comment.id}
                       commentIndex={index}
                       userName={userName}
-                      commentUserName={comment.user.username}
+                      commentUserName={reply.user.username}
                       replyId={reply.id}
                       userAvatar={userAvatar}
                       isReplyingToReply={isReplyingToReply}
