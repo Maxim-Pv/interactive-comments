@@ -262,6 +262,12 @@ body {
   padding: 0 10px;
 }
 
+.update-content {
+  margin: unset;
+  padding: unset;
+  grid-template-columns: 5fr .5fr;
+}
+
 .you {
   padding: 2px 4px;
   margin-right: 15px;

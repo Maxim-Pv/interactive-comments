@@ -198,8 +198,6 @@ function App() {
     })
   }
 
-  console.log(jsonData);
-
 
   return (
     <div className='container'>

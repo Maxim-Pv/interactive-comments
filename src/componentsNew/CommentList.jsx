@@ -7,7 +7,10 @@ const CommentList = ({ comments, userName, setIsModalOpen,
   const [replyingToReply, setReplyingToReply] = useState(null);
   const [isReplying, setIsReplying] = useState(false);
   const [isReplyingToReply, setIsReplyingToReply] = useState(false);
+
   const [isEditing, setIsEditing] = useState(false);
+  const [editContentId, setEditContentId] = useState(null);
+
 
   const handleReplyToComment = (commentId) => {
     setReplyingToComment((prevReplyingTo) => (prevReplyingTo === commentId ? prevReplyingTo : commentId));
@@ -17,6 +20,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
   const handleReplyToReply = (replyId) => {
     setReplyingToReply((prevReplyingTo) => (prevReplyingTo === replyId ? prevReplyingTo : replyId))
     setIsReplyingToReply(true)
+    console.log('handleReplyToReply');
   }
 
   const handleDeleteConfirm = (index, indexR) => {
@@ -24,9 +28,12 @@ const CommentList = ({ comments, userName, setIsModalOpen,
     setIsModalOpen(true)
   }
   
-  const handleEdit = () => {
-    setIsEditing(true)
+  const handleEdit = (id) => {
+    setIsEditing(true);
+    setEditContentId(id);
+    // setContentToEdit(content)
   }
+
 
   return (
     <div>
@@ -58,6 +65,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
               </div>
             </div>
           </div>
+
           {replyingToComment === comment.id &&
             <ReplyTo 
               commentId={comment.id}
@@ -65,9 +73,10 @@ const CommentList = ({ comments, userName, setIsModalOpen,
               userName={userName}
               userAvatar={userAvatar}
               isReplying={isReplying}
-              addReplyToComment={addReplyToComment}
               setIsReplying={setIsReplying}
-              isEditing={isEditing}
+              addReplyToComment={addReplyToComment}
+
+              setEditContentId={setEditContentId}
               setIsEditing={setIsEditing}
             />
           }
@@ -80,35 +89,48 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                     <img className="avatar" src={reply.user.image.webp} alt="avatar"></img>
                     <div>
                       {reply.user.username === userName
-                        ? (<>
-                            <div className="replies-heading">
-                              <div className="replies-heading-content">
-                                <span className="userName currentUserName">{userName}</span>
-                                <div className="replies-heading-content withoutName">
-                                  <div>
-                                    <span className="you">you</span>
-                                    <span className="created">now</span>
-                                  </div>
-                                  <div style={{display: 'flex'}}>
-                                    <button style={{marginRight: 20}} className="replyButton" 
-                                      onClick={() => handleDeleteConfirm(index, indexR)}
-                                    >
-                                      <span className="replyImg deleteImg"></span>
-                                      <span>Delete</span>
-                                    </button>
-                                    <button className="replyButton" onClick={handleEdit}>
-                                      <span className="replyImg editImg"></span>
-                                      <span>Edit</span>
-                                    </button>
+                        ? 
+                        (editContentId === reply.id
+                          ? (<ReplyTo 
+                              isEditing={isEditing}
+                              isReplying={isReplying}
+                              setIsReplying={setIsReplying}
+                              setIsEditing={setIsEditing}
+                              editContentId={editContentId}
+                              setEditContentId={setEditContentId}
+                            />)
+                          :
+                            (<>
+                              <div className="replies-heading">
+                                <div className="replies-heading-content">
+                                  <span className="userName currentUserName">{userName}</span>
+                                  <div className="replies-heading-content withoutName">
+                                    <div>
+                                      <span className="you">you</span>
+                                      <span className="created">now</span>
+                                    </div>
+                                    <div style={{display: 'flex'}}>
+                                      <button style={{marginRight: 20}} className="replyButton" 
+                                        onClick={() => handleDeleteConfirm(index, indexR)}
+                                      >
+                                        <span className="replyImg deleteImg"></span>
+                                        <span>Delete</span>
+                                      </button>
+                                      <button className="replyButton" onClick={() => handleEdit(reply.id, reply.content)}>
+                                        <span className="replyImg editImg"></span>
+                                        <span>Edit</span>
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <p className="text">
-                              <span className="replyingTo">@{reply.replyingTo}</span>
-                              {reply.content}
-                            </p>
-                          </>)
+                                <p className="text">
+                                  <span className="replyingTo">@{reply.replyingTo}</span>
+                                  {reply.content}
+                                </p>
+                            </>)
+                          )
+                            
                         : (<>
                             <div className="replies-heading">
                               <div className="reply-userData">
@@ -126,11 +148,10 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                             </p>
                           </>)
                       }
-                        
                     </div>
                   </div>
                 </div>
-                {replyingToReply === reply.id && 
+                  {replyingToReply === reply.id && 
                     <ReplyTo
                       commentId={comment.id}
                       commentIndex={index}
@@ -138,11 +159,20 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                       commentUserName={reply.user.username}
                       replyId={reply.id}
                       userAvatar={userAvatar}
+
+                      isReplying={isReplying}
+                      setIsReplying={setIsReplying}
+
                       isReplyingToReply={isReplyingToReply}
                       setIsReplyingToReply={setIsReplyingToReply}
                       addReplyToReply={addReplyToReply}
+
+                      setIsEditing={setIsEditing}
+                      setEditContentId={setEditContentId}
                     />
                   }
+                  
+               
               </div>
             ))}
           </div>

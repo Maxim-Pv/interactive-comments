@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const ReplyTo = ({ commentUserName, commentId, commentIndex, replyId, userName, 
-  userAvatar, addReplyToComment, addReplyToReply, isReplying, setIsReplying, 
-  isReplyingToReply, setIsReplyingToReply, isEditing, setIsEditing }) => {
+const ReplyTo = ({ 
+  commentUserName, commentId, commentIndex, 
+  replyId, userName, userAvatar, 
+  addReplyToComment, addReplyToReply, 
+  isReplying, setIsReplying, 
+  isReplyingToReply, setIsReplyingToReply, 
+  isEditing, setIsEditing,  
+  editContentId, setEditContentId,
+  contentToEdit, setContentToEdit,
+  toEditContent }) => {
 
-  const [commentUserReply, setCommentUserReply] = useState(`@${commentUserName}, `);
-  const [editedContent, setEditedContent] = useState(commentUserReply);
-  
+  const [commentUserReply, setCommentUserReply] = useState(commentUserName ? `@${commentUserName}, `: '' );
+  const [editContent, setEditContent] = useState('contentedit');
+
   const handleChange = (event) => {
     setCommentUserReply(event.target.value);
   };
@@ -16,7 +23,7 @@ const ReplyTo = ({ commentUserName, commentId, commentIndex, replyId, userName,
         commentUserReply.trim() === '') {
         return 
     } else {
-
+      setEditContent(commentUserReply)
       console.log(commentUserReply);
       const newReply = {
         id: Date.now(),
@@ -40,50 +47,51 @@ const ReplyTo = ({ commentUserName, commentId, commentIndex, replyId, userName,
         addReplyToReply(commentIndex, commentId, replyId, newReply)
         setIsReplyingToReply(false)
       }
-
-      if (isEditing) {
-        setIsEditing(false)
-      }
     }
-    setCommentUserReply(`@${commentUserName}, `)
-
+    setCommentUserReply(commentUserReply.substring(`@${commentUserName}, `.length))
+    setEditContentId(null)
+    setEditContent(commentUserReply)
+    setIsEditing(false)
+    // setCommentUserReply(commentUserName ? `@${commentUserName}, `: '')
   }
 
-  // const handleUpdate = () => {
+  const handleUpdate = () => {
+    console.log(commentUserReply);
+    // setCommentUserReply(editContent)
+    // setEditContentId(null)
+    console.log('handleUpdate');
+  }
 
-  // }
-
-
+  console.log(editContent + ' edit');
+  console.log(commentUserReply + '  ReplyTo commentUserReply '); 
   return (
     <div>
       {(isReplying || isReplyingToReply) &&  
         (<div style={{marginTop: -10 }} className="comments currentUser-content">
           <img className="avatar" src={userAvatar} alt="avatar"></img>
-          {!isEditing 
-            ? <>
-                <textarea
-                  className="currentUser-text editedText"
-                  value={commentUserReply}
-                  onChange={handleChange}
-                />
-                <button className="btn-send" onClick={handleSubmit}>
-                  REPLY
-                </button>
-              </>
-            : <>
-                <textarea
-                  className="currentUser-text editedText"
-                  value={commentUserReply}
-                  onChange={(e) => setEditedContent(e.target.value)}
-                />
-                <button className="btn-send" onClick={handleSubmit}>
-                  UPDATE
-                </button>
-              </>
-            
-          }
+          <textarea
+            className="currentUser-text editedText"
+            value={commentUserReply}
+            onChange={handleChange}
+          />
+          <button className="btn-send" onClick={handleSubmit}>
+            REPLY
+          </button>
         </div>)
       }
+      {isEditing &&
+        <div className="currentUser-content update-content">
+          <textarea
+            className="currentUser-text editedText"
+            value={editContent ? editContent : 'content'}
+            onChange={(e) => setEditContent(e.target.value)}
+          />
+          <button className="btn-send" onClick={handleUpdate}>
+            UPDATE
+          </button> 
+        </div>
+      }
+
     </div>
     
   )
@@ -91,5 +99,4 @@ const ReplyTo = ({ commentUserName, commentId, commentIndex, replyId, userName,
 
 export default ReplyTo
 
-
-// Убрать `@${commentUserName}, ` в handleSubmit
+// пропадает ответ при попытке редактировать 
