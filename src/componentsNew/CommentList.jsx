@@ -8,7 +8,6 @@ const CommentList = ({ comments, userName, setIsModalOpen,
   const [isReplying, setIsReplying] = useState(false);
   const [isReplyingToReply, setIsReplyingToReply] = useState(false);
 
-  const [isEditing, setIsEditing] = useState(false);
   const [editContentId, setEditContentId] = useState(null);
 
 
@@ -29,9 +28,8 @@ const CommentList = ({ comments, userName, setIsModalOpen,
   }
   
   const handleEdit = (id) => {
-    setIsEditing(true);
     setEditContentId(id);
-    // setContentToEdit(content)
+    console.log(id);
   }
 
 
@@ -77,7 +75,6 @@ const CommentList = ({ comments, userName, setIsModalOpen,
               addReplyToComment={addReplyToComment}
 
               setEditContentId={setEditContentId}
-              setIsEditing={setIsEditing}
             />
           }
 {/* Replies to comment start here */}
@@ -92,10 +89,9 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                         ? 
                         (editContentId === reply.id
                           ? (<ReplyTo 
-                              isEditing={isEditing}
+                              comment={reply}
                               isReplying={isReplying}
                               setIsReplying={setIsReplying}
-                              setIsEditing={setIsEditing}
                               editContentId={editContentId}
                               setEditContentId={setEditContentId}
                             />)
@@ -153,6 +149,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                 </div>
                   {replyingToReply === reply.id && 
                     <ReplyTo
+                      comment={reply}
                       commentId={comment.id}
                       commentIndex={index}
                       userName={userName}
@@ -167,12 +164,10 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                       setIsReplyingToReply={setIsReplyingToReply}
                       addReplyToReply={addReplyToReply}
 
-                      setIsEditing={setIsEditing}
                       setEditContentId={setEditContentId}
                     />
                   }
                   
-               
               </div>
             ))}
           </div>

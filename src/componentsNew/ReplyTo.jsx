@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 const ReplyTo = ({ 
   commentUserName, commentId, commentIndex, 
@@ -6,17 +6,16 @@ const ReplyTo = ({
   addReplyToComment, addReplyToReply, 
   isReplying, setIsReplying, 
   isReplyingToReply, setIsReplyingToReply, 
-  isEditing, setIsEditing,  
   editContentId, setEditContentId,
-  contentToEdit, setContentToEdit,
-  toEditContent }) => {
+  comment }) => {
 
   const [commentUserReply, setCommentUserReply] = useState(commentUserName ? `@${commentUserName}, `: '' );
-  const [editContent, setEditContent] = useState('contentedit');
+  const [editContent, setEditContent] = useState(comment ? comment.content : '');
 
   const handleChange = (event) => {
     setCommentUserReply(event.target.value);
   };
+
 
   const handleSubmit = () => {
     if (commentUserReply.trim() ===  `@${commentUserName}, `.trim() || 
@@ -51,8 +50,7 @@ const ReplyTo = ({
     setCommentUserReply(commentUserReply.substring(`@${commentUserName}, `.length))
     setEditContentId(null)
     setEditContent(commentUserReply)
-    setIsEditing(false)
-    // setCommentUserReply(commentUserName ? `@${commentUserName}, `: '')
+
   }
 
   const handleUpdate = () => {
@@ -62,8 +60,7 @@ const ReplyTo = ({
     console.log('handleUpdate');
   }
 
-  console.log(editContent + ' edit');
-  console.log(commentUserReply + '  ReplyTo commentUserReply '); 
+
   return (
     <div>
       {(isReplying || isReplyingToReply) &&  
@@ -79,7 +76,7 @@ const ReplyTo = ({
           </button>
         </div>)
       }
-      {isEditing &&
+      {editContentId &&
         <div className="currentUser-content update-content">
           <textarea
             className="currentUser-text editedText"
@@ -98,5 +95,3 @@ const ReplyTo = ({
 }
 
 export default ReplyTo
-
-// пропадает ответ при попытке редактировать 
