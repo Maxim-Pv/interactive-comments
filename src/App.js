@@ -175,29 +175,31 @@ function App() {
     setIsModalOpen(false)
   }
 
-  const addReplyToComment = (commentId, newReply) => {
+  const addReply = (commentIndex, commentId, replyId, newReply) => {
     setJsonData(prevData => {
-      const upadtedData = { ...prevData };
-      const commentToUpdate = upadtedData.comments.find(comment => comment.id === commentId);
+      const updatedData = { ...prevData };
+      const commentToUpdate = updatedData.comments.find(comment => comment.id === commentId);
       commentToUpdate.replies.push(newReply);
-      localStorage.setItem('jsonData', JSON.stringify(upadtedData));
-      return upadtedData;
+      localStorage.setItem('jsonData', JSON.stringify(updatedData));
+      return updatedData;
     })
-  }
+  };
+  
 
-  const addReplyToReply = (commentIndex, commentId, replyId, newReply) => {
+  const updateReply = (replyId, newContent) => {
     setJsonData(prevData => {
-      const upadtedData = { ...prevData };
-      const commentToUpdate = upadtedData.comments.find(comment => comment.id === commentId);
-      // const replyToUpdate = commentToUpdate.replies.find(reply => reply.id === replyId);
-      // console.log(replyToUpdate);
-      commentToUpdate.replies.push(newReply);
-
-      localStorage.setItem('jsonData', JSON.stringify(upadtedData));
-      return upadtedData;
-    })
-  }
-
+      const updatedData = { ...prevData };
+      for (let comment of updatedData.comments) {
+        const replyToUpdate = comment.replies.find(reply => reply.id === replyId);
+        if (replyToUpdate) {
+          replyToUpdate.content = newContent;
+          break;
+        }
+      }
+      localStorage.setItem('jsonData', JSON.stringify(updatedData));
+      return updatedData;
+    });
+  };
 
   return (
     <div className='container'>
@@ -207,8 +209,8 @@ function App() {
         setIsModalOpen={setIsModalOpen}
         onDeleteReply={selectedReply}
         userAvatar={jsonData.currentUser.image.webp}
-        addReplyToComment={addReplyToComment}
-        addReplyToReply={addReplyToReply}
+        addReply={addReply}
+        updateReply={updateReply}
       />
       <UserComment 
         avatar={jsonData.currentUser.image.webp}

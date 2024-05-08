@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import ReplyTo from './ReplyTo';
 
 const CommentList = ({ comments, userName, setIsModalOpen, 
-  onDeleteReply, userAvatar, addReplyToComment, addReplyToReply }) => {
+  onDeleteReply, userAvatar, updateReply, addReply }) => {
   const [replyingToComment, setReplyingToComment] = useState(null);
   const [replyingToReply, setReplyingToReply] = useState(null);
   const [isReplying, setIsReplying] = useState(false);
   const [isReplyingToReply, setIsReplyingToReply] = useState(false);
 
   const [editContentId, setEditContentId] = useState(null);
-
 
   const handleReplyToComment = (commentId) => {
     setReplyingToComment((prevReplyingTo) => (prevReplyingTo === commentId ? prevReplyingTo : commentId));
@@ -19,7 +18,6 @@ const CommentList = ({ comments, userName, setIsModalOpen,
   const handleReplyToReply = (replyId) => {
     setReplyingToReply((prevReplyingTo) => (prevReplyingTo === replyId ? prevReplyingTo : replyId))
     setIsReplyingToReply(true)
-    console.log('handleReplyToReply');
   }
 
   const handleDeleteConfirm = (index, indexR) => {
@@ -29,7 +27,6 @@ const CommentList = ({ comments, userName, setIsModalOpen,
   
   const handleEdit = (id) => {
     setEditContentId(id);
-    console.log(id);
   }
 
 
@@ -72,7 +69,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
               userAvatar={userAvatar}
               isReplying={isReplying}
               setIsReplying={setIsReplying}
-              addReplyToComment={addReplyToComment}
+              addReply={addReply}
 
               setEditContentId={setEditContentId}
             />
@@ -94,6 +91,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                               setIsReplying={setIsReplying}
                               editContentId={editContentId}
                               setEditContentId={setEditContentId}
+                              updateReply={updateReply}
                             />)
                           :
                             (<>
@@ -112,7 +110,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                                         <span className="replyImg deleteImg"></span>
                                         <span>Delete</span>
                                       </button>
-                                      <button className="replyButton" onClick={() => handleEdit(reply.id, reply.content)}>
+                                      <button className="replyButton" onClick={() => handleEdit(reply.id)}>
                                         <span className="replyImg editImg"></span>
                                         <span>Edit</span>
                                       </button>
@@ -156,13 +154,13 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                       commentUserName={reply.user.username}
                       replyId={reply.id}
                       userAvatar={userAvatar}
+                      addReply={addReply}
 
                       isReplying={isReplying}
                       setIsReplying={setIsReplying}
 
                       isReplyingToReply={isReplyingToReply}
                       setIsReplyingToReply={setIsReplyingToReply}
-                      addReplyToReply={addReplyToReply}
 
                       setEditContentId={setEditContentId}
                     />

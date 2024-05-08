@@ -3,61 +3,60 @@ import React, { useState } from 'react'
 const ReplyTo = ({ 
   commentUserName, commentId, commentIndex, 
   replyId, userName, userAvatar, 
-  addReplyToComment, addReplyToReply, 
   isReplying, setIsReplying, 
   isReplyingToReply, setIsReplyingToReply, 
   editContentId, setEditContentId,
-  comment }) => {
+  comment, updateReply, addReply }) => {
 
-  const [commentUserReply, setCommentUserReply] = useState(commentUserName ? `@${commentUserName}, `: '' );
+  const [commentUserReply, setCommentUserReply] = useState(commentUserName ? `@${commentUserName}, `: '');
   const [editContent, setEditContent] = useState(comment ? comment.content : '');
 
   const handleChange = (event) => {
     setCommentUserReply(event.target.value);
   };
 
-
   const handleSubmit = () => {
     if (commentUserReply.trim() ===  `@${commentUserName}, `.trim() || 
         commentUserReply.trim() === '') {
         return 
     } else {
-      setEditContent(commentUserReply)
-      console.log(commentUserReply);
-      const newReply = {
-        id: Date.now(),
-        content: commentUserReply,
-        createdAt: "now",
-        score: 0,
-        replyingTo: commentUserName,
-        user: {
-          image: { 
-            webp: "./images/avatars/image-juliusomo.webp"
-          },
-          username: userName,
+        const newReply = {
+          id: Date.now(),
+          content: commentUserReply,
+          createdAt: "now",
+          score: 0,
+          replyingTo: commentUserName,
+          user: {
+            image: { 
+              webp: "./images/avatars/image-juliusomo.webp"
+            },
+            username: userName,
+          }
+        };
+        
+        if (isReplying) {
+          addReply(null, commentId, null, newReply)
+          setIsReplying(false)
         }
-      };
-      
-      if (isReplying) {
-        addReplyToComment(commentId, newReply);
-        setIsReplying(false)
-      }
-      if (isReplyingToReply) {
-        addReplyToReply(commentIndex, commentId, replyId, newReply)
-        setIsReplyingToReply(false)
-      }
+        if (isReplyingToReply) {
+          addReply(commentIndex, commentId, replyId, newReply)
+          setIsReplyingToReply(false)
+        }
+        setCommentUserReply(commentUserName ? `@${commentUserName}, `: '')
     }
-    setCommentUserReply(commentUserReply.substring(`@${commentUserName}, `.length))
-    setEditContentId(null)
-    setEditContent(commentUserReply)
-
   }
 
   const handleUpdate = () => {
-    console.log(commentUserReply);
-    // setCommentUserReply(editContent)
-    // setEditContentId(null)
-    console.log('handleUpdate');
+    if (editContent.trim() === '') {
+        return 
+    } else {
+        const newReply = {
+          id: editContentId,
+          content: editContent,
+        };
+        updateReply(editContentId, newReply.content)
+        setEditContentId(null)
+    }
   }
 
 
@@ -80,7 +79,7 @@ const ReplyTo = ({
         <div className="currentUser-content update-content">
           <textarea
             className="currentUser-text editedText"
-            value={editContent ? editContent : 'content'}
+            value={editContent ? editContent : ''}
             onChange={(e) => setEditContent(e.target.value)}
           />
           <button className="btn-send" onClick={handleUpdate}>
