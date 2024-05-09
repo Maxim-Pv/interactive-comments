@@ -118,10 +118,15 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                                   </div>
                                 </div>
                               </div>
-                                <p className="text">
-                                  <span className="replyingTo">@{reply.replyingTo}</span>
-                                  {reply.content}
-                                </p>
+                              {reply.replyingTo && reply.content.startsWith(`@${reply.replyingTo}`)
+                                ? (<p className="text">
+                                    <span className="replyingTo">@{reply.replyingTo}</span>
+                                    {reply.content.substring(`@${reply.replyingTo},`.length)}
+                                  </p>)
+                                : (<p className="text">
+                                    {reply.content}
+                                  </p>)
+                              }
                             </>)
                           )
                             

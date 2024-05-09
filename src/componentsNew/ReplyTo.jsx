@@ -20,6 +20,7 @@ const ReplyTo = ({
         commentUserReply.trim() === '') {
         return 
     } else {
+      
         const newReply = {
           id: Date.now(),
           content: commentUserReply,
@@ -42,6 +43,7 @@ const ReplyTo = ({
           addReply(commentIndex, commentId, replyId, newReply)
           setIsReplyingToReply(false)
         }
+        
         setCommentUserReply(commentUserName ? `@${commentUserName}, `: '')
     }
   }
