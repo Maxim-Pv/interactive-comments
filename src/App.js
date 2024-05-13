@@ -201,6 +201,15 @@ function App() {
     });
   };
 
+  const addComment = (newComment) => {
+    setJsonData(prevData => {
+      const updatedData = { ...prevData };
+      updatedData.comments.push(newComment);
+      localStorage.setItem('jsonData', JSON.stringify(updatedData));
+      return updatedData;
+    });
+  };
+
   return (
     <div className='container'>
       <CommentList 
@@ -214,6 +223,8 @@ function App() {
       />
       <UserComment 
         avatar={jsonData.currentUser.image.webp}
+        addComment={addComment}
+        userName={jsonData.currentUser.username}
       /> 
       <Modal
         isModalOpen={isModalOpen}
