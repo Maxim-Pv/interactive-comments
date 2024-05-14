@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import ReplyTo from './ReplyTo';
 
-const CommentList = ({ comments, userName, setIsModalOpen, 
-  onDeleteReply, userAvatar, updateReply, addReply }) => {
+const CommentList = ({ comments, userName, likesState, handleChangeLikeState, setIsModalOpen, 
+  onDeleteReply, userAvatar, updateReply, addReply, updateComment }) => {
   const [replyingToComment, setReplyingToComment] = useState(null);
   const [replyingToReply, setReplyingToReply] = useState(null);
   const [isReplying, setIsReplying] = useState(false);
@@ -38,25 +38,67 @@ const CommentList = ({ comments, userName, setIsModalOpen,
             <div className="comment-container">
               <img className="avatar" src={comment.user.image.webp} alt="avatar"></img>
               <div>
-                <div className="comment-heading">
-                  <div>
-                    <span className="userName">{comment.user.username}</span>
-                    <span className="created">{comment.createdAt}</span>
-                  </div>
-                  <button className="replyButton" onClick={() => handleReplyToComment(comment.id)}>
-                    <span className="replyImg"></span>
-                    <span>Reply</span>
-                  </button>
-                </div>
-                <p className="text">{comment.content}</p>
-                <div className="likes">
-                  {/* <button
-                    className={!likesState[index].liked ? 'likeButton' : 'likeButton active'}
-                    onClick={() => handleChangeLikeState(index)}
-                  >
-                    <span className="likesDigit">{likesState[index].likes}</span>
-                  </button> */}
-                </div>
+                  {comment.user.username !== userName 
+                    ?
+                      (<>
+                        <div className="comment-heading">
+                          <div>
+                            <span className="userName">{comment.user.username}</span>
+                            <span className="created">{comment.createdAt}</span>
+                          </div>
+                          <button className="replyButton" onClick={() => handleReplyToComment(comment.id)}>
+                            <span className="replyImg"></span>
+                            <span>Reply</span>
+                          </button>
+                        </div>
+                        <p className="text">{comment.content}</p>
+                        <div className="likes">
+                          <button
+                            className={!likesState[index].liked ? 'likeButton' : 'likeButton active'}
+                            onClick={() => handleChangeLikeState(index)}
+                          >
+                            <span className="likesDigit">{likesState[index].likes}</span>
+                          </button>
+                        </div>
+                      </>)
+                    : 
+                      (editContentId === comment.id
+                        ? 
+                          (<ReplyTo 
+                            comment={comment}
+                            editContentId={editContentId}
+                            setEditContentId={setEditContentId}
+                            updateReply={updateComment}
+                          />)
+                        : 
+                          (<>
+                            <div className="replies-heading">
+                              <div className="replies-heading-content">
+                                    <span className="userName currentUserName">{userName}</span>
+                                  <div className="replies-heading-content withoutName">
+                                  <div>
+                                    <span className="you">you</span>
+                                    <span className="created">now</span>
+                                  </div>
+                                  <div style={{display: 'flex'}}>
+                                    <button style={{marginRight: 20}} className="replyButton" 
+                                      onClick={() => handleDeleteConfirm(index, null)}
+                                    >
+                                      <span className="replyImg deleteImg"></span>
+                                      <span>Delete</span>
+                                    </button>
+                                    <button className="replyButton" onClick={() => handleEdit(comment.id)}>
+                                      <span className="replyImg editImg"></span>
+                                      <span>Edit</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <p className="text">{comment.content}</p>
+                          </>)
+                      )
+                  }
               </div>
             </div>
           </div>
@@ -123,9 +165,7 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                                     <span className="replyingTo">@{reply.replyingTo}</span>
                                     {reply.content.substring(`@${reply.replyingTo},`.length)}
                                   </p>)
-                                : (<p className="text">
-                                    {reply.content}
-                                  </p>)
+                                : <p className="text">{reply.content}</p>
                               }
                             </>)
                           )
@@ -145,6 +185,14 @@ const CommentList = ({ comments, userName, setIsModalOpen,
                               <span className="replyingTo">@{reply.replyingTo}</span>
                               {reply.content}
                             </p>
+                            <div className="likes">
+                              <button
+                                className={!likesState[index + indexR + 1].liked ? 'likeButton' : 'likeButton active'}
+                                onClick={() => handleChangeLikeState(index + indexR + 1)}
+                              >
+                                <span className="likesDigit">{likesState[index + indexR + 1].likes}</span>
+                              </button>
+                            </div>
                           </>)
                       }
                     </div>
