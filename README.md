@@ -26,7 +26,10 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![desktop-design](design/desktop-design.jpeg)
+![desktop-modal](design/desktop-modal.jpeg)
+![mobile-design](design/mobile-design.jpeg)
+![mobile-modal](design/mobile-modal.jpeg)
 
 
 ### Links
