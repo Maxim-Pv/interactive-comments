@@ -35,7 +35,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [site]([https://your-live-site-url.com](https://interactive-comments-omega-snowy.vercel.app/))
+- Live Site URL: [site](https://interactive-comments-omega-snowy.vercel.app/)
 
 
 ### Built with
