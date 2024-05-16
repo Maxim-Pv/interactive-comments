@@ -25,7 +25,7 @@ body {
 
 .comment-container {
   display: grid;
-  grid-template-columns: 1fr 7fr;
+  grid-template-columns: 10% 90%;
   padding: 20px 20px 30px;
 }
 
@@ -77,7 +77,7 @@ body {
 }
 
 .text {
-  width: 90%;
+  width: 100%;
   min-height: 50px;
 
   overflow-wrap: break-word;
@@ -291,6 +291,10 @@ body {
   display: none;
 }
 
+.margin-left {
+  margin-left: 15px;
+}
+
 /* modal window*/
 
 .modal {
@@ -370,6 +374,10 @@ body {
   .comment-heading,
   .replies-heading {
     margin-bottom: 15px;
+  }
+
+  .margin-left {
+    margin-left: unset;
   }
 
   .avatar {

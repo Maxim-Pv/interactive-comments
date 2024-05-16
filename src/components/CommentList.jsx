@@ -35,11 +35,13 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
         <div key={comment.id}>
           <div className="comments" >
             <div className="comment-container">
-              <img className={`avatar ${editContentId === comment.id && 'currentUser-avatar'}`} src={comment.user.image.webp} alt="avatar"></img>
-              <div>
+              <img className={`avatar ${editContentId === comment.id && 'currentUser-avatar'}`} 
+                src={comment.user.image.webp} alt="avatar">
+              </img>
+              <div className='margin-left'>
                   {comment.user.username !== userName 
                     ?
-                      (<>
+                      (<div>
                         <div className="comment-heading">
                           <div className='user-details'>
                             <span className="userName">{comment.user.username}</span>
@@ -59,7 +61,7 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                             <span className="likesDigit">{likesState[index].likes}</span>
                           </button>
                         </div>
-                      </>)
+                      </div>)
                     : 
                       (editContentId === comment.id
                         ? 
@@ -95,6 +97,9 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                               </div>
                             </div>
                             <p className="text">{comment.content}</p>
+
+               
+
                           </div>)
                       )
                   }
@@ -121,8 +126,10 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
               <div key={reply.id}>
                 <div className="comments">
                   <div className="comment-container">
-                    <img className={`avatar ${editContentId === reply.id && 'currentUser-avatar'}`} src={reply.user.image.webp} alt="avatar"></img>
-                    <div>
+                    <img className={`avatar ${editContentId === reply.id && 'currentUser-avatar'}`} 
+                      src={reply.user.image.webp} alt="avatar">
+                    </img>
+                    <div className='margin-left'>
                       {reply.user.username === userName
                         ? 
                         (editContentId === reply.id
@@ -166,6 +173,7 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                                   </p>)
                                 : <p className="text">{reply.content}</p>
                               }
+      
                             </>)
                           )
                             

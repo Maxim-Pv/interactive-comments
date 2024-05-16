@@ -56,12 +56,19 @@ function App() {
 
   const handleChangeLikeState = (index) => {
     setLikesState((prevStates) => {
-      const newState = [...prevStates];
-      newState[index] = {
-        ...newState[index],
-        likes: newState[index].liked ? newState[index].likes - 1 : newState[index].likes + 1,
-        liked: !newState[index].liked,
-      };
+      const newState = { ...prevStates };
+      if (!newState[index]) {
+        newState[index] = {
+          likes: 1,
+          liked: true,
+        };
+      } else {
+        newState[index] = {
+          ...newState[index],
+          likes: newState[index].liked ? newState[index].likes - 1 : newState[index].likes + 1,
+          liked: !newState[index].liked,
+        };
+      }
       return newState;
     });
   };
