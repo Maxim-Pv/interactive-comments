@@ -31,9 +31,9 @@ const UserComment = ({ avatar, addComment, userName }) => {
 
   return (
     <div className="comments currentUser-content">
-      <img className="avatar" src={avatar} alt="avatar"></img>
+      <img className="avatar currentUser-avatar" src={avatar} alt="avatar"></img>
       <textarea
-        className="currentUser-text editedText"
+        className="currentUser-text editedText editedText-currentUser375"
         placeholder='Add a comment...'
         value={comment}
         onChange={(e) => setComment(e.target.value)}

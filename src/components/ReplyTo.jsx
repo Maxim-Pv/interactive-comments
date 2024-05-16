@@ -80,11 +80,11 @@ const ReplyTo = ({
       {editContentId &&
         <div className="currentUser-content update-content">
           <textarea
-            className="currentUser-text editedText"
+            className={`currentUser-text editedText ${editContent && 'editedText-currentUser375'}` }
             value={editContent ? editContent : ''}
             onChange={(e) => setEditContent(e.target.value)}
           />
-          <button className="btn-send" onClick={handleUpdate}>
+          <button className="btn-send btn-update" onClick={handleUpdate}>
             UPDATE
           </button> 
         </div>

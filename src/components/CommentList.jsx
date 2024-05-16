@@ -29,20 +29,19 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
     setEditContentId(id);
   }
 
-
   return (
     <div>
       {comments.map((comment, index) => (
         <div key={comment.id}>
           <div className="comments" >
             <div className="comment-container">
-              <img className="avatar" src={comment.user.image.webp} alt="avatar"></img>
+              <img className={`avatar ${editContentId === comment.id && 'currentUser-avatar'}`} src={comment.user.image.webp} alt="avatar"></img>
               <div>
                   {comment.user.username !== userName 
                     ?
                       (<>
                         <div className="comment-heading">
-                          <div>
+                          <div className='user-details'>
                             <span className="userName">{comment.user.username}</span>
                             <span className="created">{comment.createdAt}</span>
                           </div>
@@ -71,17 +70,17 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                             updateReply={updateComment}
                           />)
                         : 
-                          (<>
+                          (<div>
                             <div className="replies-heading">
                               <div className="replies-heading-content">
                                     <span className="userName currentUserName">{userName}</span>
                                   <div className="replies-heading-content withoutName">
-                                  <div>
+                                  <div className='reply-user-details'>
                                     <span className="you">you</span>
                                     <span className="created">now</span>
                                   </div>
                                   <div style={{display: 'flex'}}>
-                                    <button style={{marginRight: 20}} className="replyButton" 
+                                    <button className="replyButton btn-delete-comment" 
                                       onClick={() => handleDeleteConfirm(index, null)}
                                     >
                                       <span className="replyImg deleteImg"></span>
@@ -96,7 +95,7 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                               </div>
                             </div>
                             <p className="text">{comment.content}</p>
-                          </>)
+                          </div>)
                       )
                   }
               </div>
@@ -122,7 +121,7 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
               <div key={reply.id}>
                 <div className="comments">
                   <div className="comment-container">
-                    <img className="avatar" src={reply.user.image.webp} alt="avatar"></img>
+                    <img className={`avatar ${editContentId === reply.id && 'currentUser-avatar'}`} src={reply.user.image.webp} alt="avatar"></img>
                     <div>
                       {reply.user.username === userName
                         ? 
@@ -141,18 +140,18 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                                 <div className="replies-heading-content">
                                   <span className="userName currentUserName">{userName}</span>
                                   <div className="replies-heading-content withoutName">
-                                    <div>
+                                    <div className='reply-user-details'>
                                       <span className="you">you</span>
-                                      <span className="created">now</span>
+                                      <span className="created">{reply.createdAt}</span>
                                     </div>
-                                    <div style={{display: 'flex'}}>
-                                      <button style={{marginRight: 20}} className="replyButton" 
+                                    <div className='changeState-btns'>
+                                      <button style={{marginRight: 20}} className="btn-delete" 
                                         onClick={() => handleDeleteConfirm(index, indexR)}
                                       >
                                         <span className="replyImg deleteImg"></span>
                                         <span>Delete</span>
                                       </button>
-                                      <button className="replyButton" onClick={() => handleEdit(reply.id)}>
+                                      <button className="btn-edit" onClick={() => handleEdit(reply.id)}>
                                         <span className="replyImg editImg"></span>
                                         <span>Edit</span>
                                       </button>
@@ -172,7 +171,7 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                             
                         : (<>
                             <div className="replies-heading">
-                              <div className="reply-userData">
+                              <div className="reply-userData user-details">
                                 <span className="userName">{reply.user.username}</span>
                                 <span className="created">{reply.createdAt}</span>
                               </div>

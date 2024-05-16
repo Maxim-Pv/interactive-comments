@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import CommentList from "./componentsNew/CommentList";
-import UserComment from "./componentsNew/UserComment";
-import Modal from "./componentsNew/Modal";
+import UserComment from "./components/UserComment";
+import CommentList from "./components/CommentList";
+import Modal from "./components/Modal";
 import data from './data.json';
 import './styles.css';
 
@@ -55,27 +55,15 @@ function App() {
   }
 
   const handleChangeLikeState = (index) => {
-    if (!likesState[index].liked) {
-      setLikesState((prevStates) => {
-        const newState = [...prevStates];
-        newState[index] = {
-          ...newState[index],
-          likes: newState[index].likes + 1,
-          liked: true,
-        };
-        return newState;
-      });
-    } else {
-      setLikesState((prevStates) => {
-        const newState = [...prevStates];
-        newState[index] = {
-          ...newState[index],
-          likes: newState[index].likes - 1,
-          liked: false,
-        };
-        return newState;
-      });
-    }
+    setLikesState((prevStates) => {
+      const newState = [...prevStates];
+      newState[index] = {
+        ...newState[index],
+        likes: newState[index].liked ? newState[index].likes - 1 : newState[index].likes + 1,
+        liked: !newState[index].liked,
+      };
+      return newState;
+    });
   };
 
   const saveRepliesToStorage = (updatedReplies) => {

@@ -3,12 +3,6 @@ import React, { useEffect, useRef } from 'react'
 const Modal = ({ isModalOpen, setIsModalOpen, handleConfirmDelete }) => {
   const modalRef = useRef(null);
 
-  const handleClickOutside = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      handleCancel();
-    }
-  };
-
   useEffect(() => {
     if (isModalOpen) {
       document.addEventListener('mousedown', handleClickOutside)
@@ -21,6 +15,12 @@ const Modal = ({ isModalOpen, setIsModalOpen, handleConfirmDelete }) => {
     }
     
   }, [isModalOpen])
+
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      handleCancel();
+    }
+  };
 
   const handleCancel = () => {
     setIsModalOpen(!isModalOpen)
