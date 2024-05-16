@@ -477,8 +477,13 @@ body {
   /* Modal */
 
   .modal-btn{
-    width: 130px;
+    width: 125px;
     padding: 13px;
+  }
+
+  .modal-content {
+    max-width: 300px;
+    padding: 20px;
   }
 
 } 
