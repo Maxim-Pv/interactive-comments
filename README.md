@@ -34,7 +34,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Solution URL: [solution](https://www.frontendmentor.io/solutions/interactivecomments-a2u8oJPwpv)
 - Live Site URL: [site](https://interactive-comments-omega-snowy.vercel.app/)
 
 
