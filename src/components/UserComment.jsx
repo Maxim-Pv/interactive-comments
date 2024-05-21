@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 
 const UserComment = ({ avatar, addComment, userName }) => {
-
   const [comment, setComment] = useState('');
 
   const handleSubmit = () => {
     if (comment.trim() === '') {
         return 
     } else {
-      
         const newComment = {
           id: Date.now(),
           content: comment,

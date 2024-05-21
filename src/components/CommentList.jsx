@@ -10,15 +10,31 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
 
   const [editContentId, setEditContentId] = useState(null);
 
+
   const handleReplyToComment = (commentId) => {
-    setReplyingToComment((prevReplyingTo) => (prevReplyingTo === commentId ? prevReplyingTo : commentId));
-    setIsReplying(true);
+    setReplyingToComment((prevReplyingTo) => {
+        if (prevReplyingTo === commentId) {
+            setIsReplying((prevIsReplying) => !prevIsReplying);
+            return null;
+        } else {
+            setIsReplying(true);
+            return commentId;
+        }
+    });
   };
 
   const handleReplyToReply = (replyId) => {
-    setReplyingToReply((prevReplyingTo) => (prevReplyingTo === replyId ? prevReplyingTo : replyId))
-    setIsReplyingToReply(true)
+    setReplyingToReply((prevReplyingTo) => {
+      if (prevReplyingTo === replyId) {
+          setIsReplyingToReply((prevIsReplying) => !prevIsReplying); 
+          return null; 
+      } else {
+          setIsReplyingToReply(true);
+          return replyId;
+      }
+    });
   }
+
 
   const handleDeleteConfirm = (index, indexR) => {
     onDeleteReply([index, indexR])
@@ -28,6 +44,7 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
   const handleEdit = (id) => {
     setEditContentId(id);
   }
+
 
   return (
     <div>
@@ -55,10 +72,11 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                         <p className="text">{comment.content}</p>
                         <div className="likes">
                           <button
-                            className={!likesState[index].liked ? 'likeButton' : 'likeButton active'}
-                            onClick={() => handleChangeLikeState(index)}
+                            className={!likesState.find(state => state.key === `comment-${index}`)?.liked 
+                              ? 'likeButton' : 'likeButton active'}
+                            onClick={() => handleChangeLikeState(`comment-${index}`)}
                           >
-                            <span className="likesDigit">{likesState[index].likes}</span>
+                            <span className="likesDigit">{likesState.find(state => state.key === `comment-${index}`)?.likes || ''}</span>
                           </button>
                         </div>
                       </div>)
@@ -97,9 +115,15 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                               </div>
                             </div>
                             <p className="text">{comment.content}</p>
-
-               
-
+                            <div className="likes">
+                              <button
+                                className={!likesState.find(state => state.key === `comment-${index}`)?.liked 
+                                  ? 'likeButton' : 'likeButton active'}
+                                onClick={() => handleChangeLikeState(`comment-${index}`)}
+                              >
+                                <span className="likesDigit">{likesState.find(state => state.key === `comment-${index}`)?.likes || ''}</span>
+                              </button>
+                            </div>
                           </div>)
                       )
                   }
@@ -173,6 +197,20 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                                   </p>)
                                 : <p className="text">{reply.content}</p>
                               }
+                              <div className="likes">
+                                <button
+                                  className={
+                                    !likesState.find(state => state.key === `comment-${index}-reply-${indexR}`)?.liked
+                                      ? 'likeButton'
+                                      : 'likeButton active'
+                                  }
+                                  onClick={() => handleChangeLikeState(`comment-${index}-reply-${indexR}`)}
+                                >
+                                  <span className="likesDigit">
+                                    {likesState.find(state => state.key === `comment-${index}-reply-${indexR}`)?.likes || ''}
+                                  </span>
+                                </button>
+                              </div>
       
                             </>)
                           )
@@ -192,12 +230,18 @@ const CommentList = ({ comments, userName, likesState, handleChangeLikeState, se
                               <span className="replyingTo">@{reply.replyingTo}</span>
                               {reply.content}
                             </p>
-                            <div className="likes">
+                             <div className="likes">
                               <button
-                                className={!likesState[index + indexR + 1].liked ? 'likeButton' : 'likeButton active'}
-                                onClick={() => handleChangeLikeState(index + indexR + 1)}
+                                className={
+                                  !likesState.find(state => state.key === `comment-${index}-reply-${indexR}`)?.liked
+                                    ? 'likeButton'
+                                    : 'likeButton active'
+                                }
+                                onClick={() => handleChangeLikeState(`comment-${index}-reply-${indexR}`)}
                               >
-                                <span className="likesDigit">{likesState[index + indexR + 1].likes}</span>
+                                <span className="likesDigit">
+                                  {likesState.find(state => state.key === `comment-${index}-reply-${indexR}`)?.likes || ''}
+                                </span>
                               </button>
                             </div>
                           </>)

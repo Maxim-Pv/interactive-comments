@@ -15,31 +15,31 @@ function App() {
   useEffect(() => {
     const fetchData = () => {
       try {
-        // Сохранение данных в локальное хранилище (это синхронная операция)
-        // все же пришлось добавить проверку на if (loading) {
+        // Saving data to local storage (this is a synchronous operation)
+        // still had to add a check for if (loading) {
         localStorage.setItem('jsonData', JSON.stringify(data));
 
         const storedData = localStorage.getItem('jsonData');
         if (storedData) {
           const parsedData = JSON.parse(storedData);
           setJsonData(parsedData);
-
-          const initialScore = parsedData.comments.map(comment => ({
+        
+          const initialScore = parsedData.comments.map((comment, index) => ({
+            key: `comment-${index}`,
             likes: comment.score,
             liked: false,
           }));
-          setLikesState(initialScore);
 
-          const initialRepliesScore = parsedData.comments.map(comment => (
-            comment.replies && comment.replies.length > 0
-              ? comment.replies.map(reply => ({
-                likes: reply.score,
-                liked: false,
-              }))
-              : []
-          )).flat();
-          setLikesState(prevState => [...prevState, ...initialRepliesScore]);
+          const initialRepliesScore = parsedData.comments.flatMap((comment, index) =>
+            comment.replies.map((reply, indexR) => ({
+              key: `comment-${index}-reply-${indexR}`,
+              likes: reply.score,
+              liked: false,
+            }))
+          );
+          setLikesState([...initialScore, ...initialRepliesScore]);
         }
+        
       } catch (e) {
         console.error('Error fetching data: ', e);
       } finally {
@@ -54,20 +54,19 @@ function App() {
     return <div className='container'>Loading ...</div>;
   }
 
-  const handleChangeLikeState = (index) => {
+  const handleChangeLikeState = (key) => {
     setLikesState((prevStates) => {
-      const newState = { ...prevStates };
-      if (!newState[index]) {
-        newState[index] = {
+      const newState = [...prevStates];
+      const likeState = newState.find(state => state.key === key);
+      if (!likeState) {
+        newState.push({
+          key,
           likes: 1,
           liked: true,
-        };
+        });
       } else {
-        newState[index] = {
-          ...newState[index],
-          likes: newState[index].liked ? newState[index].likes - 1 : newState[index].likes + 1,
-          liked: !newState[index].liked,
-        };
+        likeState.likes = likeState.liked ? likeState.likes - 1 : likeState.likes + 1;
+        likeState.liked = !likeState.liked;
       }
       return newState;
     });
@@ -135,6 +134,15 @@ function App() {
       localStorage.setItem('jsonData', JSON.stringify(updatedData));
       return updatedData;
     });
+
+    setLikesState(prevLikes => [
+      ...prevLikes,
+      {
+        key: `comment-${prevLikes.length}`,
+        likes: 0,
+        liked: false
+      }
+    ]);
   };
 
   const updateComment = (commentId, newContent) => {
@@ -150,6 +158,7 @@ function App() {
       return updatedData;
     });
   };
+
 
   return (
     <div className='container'>
